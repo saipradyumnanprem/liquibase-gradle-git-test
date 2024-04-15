@@ -1,0 +1,13 @@
+name: Initialize Liquibase
+on:
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install jq tool
+        run: |
+          sudo apt-get install liquibase= 4.27.0
