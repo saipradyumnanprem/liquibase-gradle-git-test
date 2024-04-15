@@ -1,0 +1,6 @@
+databaseChangeLog:
+- includeAll:
+    path: src/main/resources/database/version-1.x/
+
+- includeAll:
+    path: src/main/resources/database/rerunnable/views

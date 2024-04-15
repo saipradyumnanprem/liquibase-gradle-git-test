@@ -1,0 +1,96 @@
+
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id "org.liquibase.gradle" version "2.2.1"
+}
+
+repositories {
+    mavenCentral()  
+}
+
+
+dependencies {  
+  liquibaseRuntime group: 'org.liquibase', name: 'liquibase-core', version: '4.27.0'
+  liquibaseRuntime group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.22.0.0'
+  liquibaseRuntime 'info.picocli:picocli:4.7.5'
+} 
+
+liquibase {  
+  
+    activities {  
+  
+        main {  
+            changelogFile 'changelogs/master-changelog.yaml'
+            url "jdbc:oracle:thin:@localhost:1521/localcyt"  
+            username "liquibasetestuser"  
+            password "liquibasepass"
+        }  
+  
+    }  
+  
+} 
+
+
+task dbRollback {
+    // description = "Executes Liquibase rollback, Git revert, and Liquibase update"
+    // group = "custom"
+
+    // ext.rollbackTag = project.hasProperty('rollbackTag') ? project.property('rollbackTag') : ''
+    ext.commitSHA = project.hasProperty('commitSHA') ? project.property('commitSHA') : ''
+
+    // doLast {
+    //     exec {
+    //         commandLine 'cmd', '/c', 'liquibase', 'rollback', "--tag=${rollbackTag}"
+    //     }
+    // }
+ 
+    doFirst {
+        exec {
+            commandLine 'cmd', '/c', 'git', 'reset', '--hard', commitSHA
+        }
+    }
+
+    // doLast {
+    //     exec {
+    //         commandLine 'cmd', '/c', 'liquibase', 'update'
+    //     }
+    // }
+}
+
+// task test1{
+//     exec{
+//         commandLine 'cmd', '/c', 'echo test1'
+//     }
+// }
+
+// task test2{
+    
+//     exec{
+//         commandLine 'cmd', '/c', 'echo test2'
+//     }
+    
+// }
+
+// task test3{
+    
+//     exec{
+//         commandLine 'cmd', '/c', 'echo test3'
+//     }
+    
+// }
+
+// test1.dependsOn(test2)
+// test2.dependsOn(test3)
+
+// task dbChange{
+//     doFirst {
+//         exec{
+//             commandLine 'cmd', '/c', 'echo Database Rollback in progress'
+//         }
+//     }
+// }
+
+// update.dependsOn(dbChange)
+// update.dependsOn(dbRollback)
+// dbRollback.dependsOn(rollback)
