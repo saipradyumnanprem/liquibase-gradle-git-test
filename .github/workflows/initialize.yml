@@ -13,6 +13,5 @@ jobs:
           wget https://github.com/liquibase/liquibase/releases/download/v4.27.0/liquibase-4.27.0.tar.gz
           tar -xvzf liquibase-4.27.0.tar.gz
           export PATH=$PATH:/liquibase/
-          sudo chmod +x /liquibase/liquibase.sh
-          source /liquibase/liquibase.sh
+          liquibase --version
           
